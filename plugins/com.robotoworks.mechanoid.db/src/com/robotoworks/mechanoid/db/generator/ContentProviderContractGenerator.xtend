@@ -17,6 +17,7 @@ import com.robotoworks.mechanoid.db.sqliteModel.ContentUri
 import com.robotoworks.mechanoid.db.sqliteModel.ContentUriParamSegment
 import java.util.ArrayList
 import com.robotoworks.mechanoid.db.sqliteModel.TableDefinition
+import com.robotoworks.mechanoid.db.sqliteModel.Function
 
 class ContentProviderContractGenerator {
 		def CharSequence generate(Model model, SqliteDatabaseSnapshot snapshot) { 
@@ -146,9 +147,20 @@ class ContentProviderContractGenerator {
 					«tbl.name.pascalize».delete();
 					«ENDFOR»
 				}
+				
+				«generateUserFunctions(model, snapshot)»
 			}
 			'''
 	}
+    
+    def generateUserFunctions(Model model, SqliteDatabaseSnapshot snapshot) '''
+        «FOR func : model.database.config?.statements.filter(Function)»
+        public static Cursor «func.name»(«func.args.join(", ", [a|a.type.toJavaTypeName + " " + a.name])») {
+            
+        }
+        
+        «ENDFOR»
+    '''
 	
 	def generateContractItemsForActions(Model model, SqliteDatabaseSnapshot snapshot) '''
 		«IF model.database.config != null»

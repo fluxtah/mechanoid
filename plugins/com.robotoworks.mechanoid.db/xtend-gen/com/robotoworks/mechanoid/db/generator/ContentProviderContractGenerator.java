@@ -15,6 +15,8 @@ import com.robotoworks.mechanoid.db.sqliteModel.ContentUriSegment;
 import com.robotoworks.mechanoid.db.sqliteModel.CreateTableStatement;
 import com.robotoworks.mechanoid.db.sqliteModel.CreateViewStatement;
 import com.robotoworks.mechanoid.db.sqliteModel.DatabaseBlock;
+import com.robotoworks.mechanoid.db.sqliteModel.Function;
+import com.robotoworks.mechanoid.db.sqliteModel.FunctionArg;
 import com.robotoworks.mechanoid.db.sqliteModel.Model;
 import com.robotoworks.mechanoid.db.sqliteModel.ResultColumn;
 import com.robotoworks.mechanoid.db.sqliteModel.TableDefinition;
@@ -578,8 +580,53 @@ public class ContentProviderContractGenerator {
     _builder.append("\t");
     _builder.append("}");
     _builder.newLine();
+    _builder.append("\t");
+    _builder.newLine();
+    _builder.append("\t");
+    CharSequence _generateUserFunctions = this.generateUserFunctions(model, snapshot);
+    _builder.append(_generateUserFunctions, "\t");
+    _builder.newLineIfNotEmpty();
     _builder.append("}");
     _builder.newLine();
+    return _builder;
+  }
+  
+  public CharSequence generateUserFunctions(final Model model, final SqliteDatabaseSnapshot snapshot) {
+    StringConcatenation _builder = new StringConcatenation();
+    {
+      DatabaseBlock _database = model.getDatabase();
+      ConfigBlock _config = _database.getConfig();
+      EList<ConfigurationStatement> _statements = null;
+      if (_config!=null) {
+        _statements=_config.getStatements();
+      }
+      Iterable<Function> _filter = Iterables.<Function>filter(_statements, Function.class);
+      for(final Function func : _filter) {
+        _builder.append("public static Cursor ");
+        String _name = func.getName();
+        _builder.append(_name, "");
+        _builder.append("(");
+        EList<FunctionArg> _args = func.getArgs();
+        final Function1<FunctionArg,String> _function = new Function1<FunctionArg,String>() {
+          public String apply(final FunctionArg a) {
+            ColumnType _type = a.getType();
+            String _javaTypeName = ModelUtil.toJavaTypeName(_type);
+            String _plus = (_javaTypeName + " ");
+            String _name = a.getName();
+            return (_plus + _name);
+          }
+        };
+        String _join = IterableExtensions.<FunctionArg>join(_args, ", ", _function);
+        _builder.append(_join, "");
+        _builder.append(") {");
+        _builder.newLineIfNotEmpty();
+        _builder.append("    ");
+        _builder.newLine();
+        _builder.append("}");
+        _builder.newLine();
+        _builder.newLine();
+      }
+    }
     return _builder;
   }
   
