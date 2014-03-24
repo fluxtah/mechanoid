@@ -30,7 +30,7 @@ class ContentProviderGenerator {
 			
 			public abstract class Abstract«model.database.name.pascalize»ContentProvider extends MechanoidContentProvider {
 			
-				«var counter=-1»
+				«var counter=0»
 				«FOR tbl : snapshot.tables»
 				protected static final int «tbl.name.underscore.toUpperCase» = «counter=counter+1»;
 				«IF tbl.hasAndroidPrimaryKey»
@@ -71,6 +71,8 @@ class ContentProviderGenerator {
 			        final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
 			        final String authority = «model.database.name.pascalize»Contract.CONTENT_AUTHORITY;
 			
+			        matcher.addURI(authority, "__func/*", URI_MATCHER_CODE_FUNCTION);
+			        
 					«FOR tbl : snapshot.tables»
 					matcher.addURI(authority, "«tbl.name»", «tbl.name.underscore.toUpperCase»);
 					«IF tbl.hasAndroidPrimaryKey»
@@ -109,6 +111,8 @@ class ContentProviderGenerator {
 			    @Override
 			    protected String[] createContentTypes() {
 					String[] contentTypes = new String[NUM_URI_MATCHERS];
+
+			        contentTypes[URI_MATCHER_CODE_FUNCTION] = "vnd.android.cursor.dir/vnd.«model.database.name.toLowerCase».__func";
 
 					«FOR tbl : snapshot.tables»
 					contentTypes[«tbl.name.underscore.toUpperCase»] = «model.database.name.pascalize»Contract.«tbl.name.pascalize».CONTENT_TYPE;

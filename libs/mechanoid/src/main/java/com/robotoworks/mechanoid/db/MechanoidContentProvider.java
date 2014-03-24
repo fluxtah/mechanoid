@@ -38,9 +38,12 @@ import android.net.Uri;
  */
 public abstract class MechanoidContentProvider extends ContentProvider {
 	
+	protected static final int URI_MATCHER_CODE_FUNCTION = 0;
+
 	public static final String PARAM_NOTIFY = "mechdb_notify";
 
 	public static final String PARAM_GROUP_BY = "mechdb_group_by";
+	
 	
     private MechanoidSQLiteOpenHelper mOpenHelper;
 
@@ -201,9 +204,15 @@ public abstract class MechanoidContentProvider extends ContentProvider {
 	
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+
 		final int match = matchUri(uri);
 
-		if(match == UriMatcher.NO_MATCH) {
+		if(match == URI_MATCHER_CODE_FUNCTION) {
+			String functionName = uri.getLastPathSegment();
+			return executeFunction(functionName, uri);
+		}
+		
+		else if(match == UriMatcher.NO_MATCH) {
 			throw new UnsupportedOperationException("Unknown uri: " + uri);
 		}
 		
@@ -213,6 +222,8 @@ public abstract class MechanoidContentProvider extends ContentProvider {
 		
 		return cursor;
 	}
+
+	protected abstract Cursor executeFunction(String functionName, Uri uri);
 
 	@Override
 	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {

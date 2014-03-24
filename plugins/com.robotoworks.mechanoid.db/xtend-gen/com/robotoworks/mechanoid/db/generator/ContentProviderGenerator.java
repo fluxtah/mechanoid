@@ -95,7 +95,7 @@ public class ContentProviderGenerator {
     _builder.newLineIfNotEmpty();
     _builder.newLine();
     _builder.append("\t");
-    int counter = (-1);
+    int counter = 0;
     _builder.newLineIfNotEmpty();
     {
       Collection<CreateTableStatement> _tables_1 = snapshot.getTables();
@@ -292,6 +292,11 @@ public class ContentProviderGenerator {
     _builder.append("Contract.CONTENT_AUTHORITY;");
     _builder.newLineIfNotEmpty();
     _builder.newLine();
+    _builder.append("        ");
+    _builder.append("matcher.addURI(authority, \"__func/*\", URI_MATCHER_CODE_FUNCTION);");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.newLine();
     {
       Collection<CreateTableStatement> _tables_2 = snapshot.getTables();
       for(final CreateTableStatement tbl_3 : _tables_2) {
@@ -483,23 +488,32 @@ public class ContentProviderGenerator {
     _builder.append("String[] contentTypes = new String[NUM_URI_MATCHERS];");
     _builder.newLine();
     _builder.newLine();
+    _builder.append("        ");
+    _builder.append("contentTypes[URI_MATCHER_CODE_FUNCTION] = \"vnd.android.cursor.dir/vnd.");
+    DatabaseBlock _database_7 = model.getDatabase();
+    String _name_30 = _database_7.getName();
+    String _lowerCase = _name_30.toLowerCase();
+    _builder.append(_lowerCase, "        ");
+    _builder.append(".__func\";");
+    _builder.newLineIfNotEmpty();
+    _builder.newLine();
     {
       Collection<CreateTableStatement> _tables_3 = snapshot.getTables();
       for(final CreateTableStatement tbl_5 : _tables_3) {
         _builder.append("\t\t");
         _builder.append("contentTypes[");
-        String _name_30 = tbl_5.getName();
-        String _underscore_20 = Strings.underscore(_name_30);
+        String _name_31 = tbl_5.getName();
+        String _underscore_20 = Strings.underscore(_name_31);
         String _upperCase_20 = _underscore_20.toUpperCase();
         _builder.append(_upperCase_20, "\t\t");
         _builder.append("] = ");
-        DatabaseBlock _database_7 = model.getDatabase();
-        String _name_31 = _database_7.getName();
-        String _pascalize_4 = Strings.pascalize(_name_31);
+        DatabaseBlock _database_8 = model.getDatabase();
+        String _name_32 = _database_8.getName();
+        String _pascalize_4 = Strings.pascalize(_name_32);
         _builder.append(_pascalize_4, "\t\t");
         _builder.append("Contract.");
-        String _name_32 = tbl_5.getName();
-        String _pascalize_5 = Strings.pascalize(_name_32);
+        String _name_33 = tbl_5.getName();
+        String _pascalize_5 = Strings.pascalize(_name_33);
         _builder.append(_pascalize_5, "\t\t");
         _builder.append(".CONTENT_TYPE;");
         _builder.newLineIfNotEmpty();
@@ -508,18 +522,18 @@ public class ContentProviderGenerator {
           if (_hasAndroidPrimaryKey_8) {
             _builder.append("\t\t");
             _builder.append("contentTypes[");
-            String _name_33 = tbl_5.getName();
-            String _underscore_21 = Strings.underscore(_name_33);
+            String _name_34 = tbl_5.getName();
+            String _underscore_21 = Strings.underscore(_name_34);
             String _upperCase_21 = _underscore_21.toUpperCase();
             _builder.append(_upperCase_21, "\t\t");
             _builder.append("_ID] = ");
-            DatabaseBlock _database_8 = model.getDatabase();
-            String _name_34 = _database_8.getName();
-            String _pascalize_6 = Strings.pascalize(_name_34);
+            DatabaseBlock _database_9 = model.getDatabase();
+            String _name_35 = _database_9.getName();
+            String _pascalize_6 = Strings.pascalize(_name_35);
             _builder.append(_pascalize_6, "\t\t");
             _builder.append("Contract.");
-            String _name_35 = tbl_5.getName();
-            String _pascalize_7 = Strings.pascalize(_name_35);
+            String _name_36 = tbl_5.getName();
+            String _pascalize_7 = Strings.pascalize(_name_36);
             _builder.append(_pascalize_7, "\t\t");
             _builder.append(".ITEM_CONTENT_TYPE;");
             _builder.newLineIfNotEmpty();
@@ -532,18 +546,18 @@ public class ContentProviderGenerator {
       for(final CreateViewStatement vw_4 : _views_2) {
         _builder.append("\t\t");
         _builder.append("contentTypes[");
-        String _name_36 = vw_4.getName();
-        String _underscore_22 = Strings.underscore(_name_36);
+        String _name_37 = vw_4.getName();
+        String _underscore_22 = Strings.underscore(_name_37);
         String _upperCase_22 = _underscore_22.toUpperCase();
         _builder.append(_upperCase_22, "\t\t");
         _builder.append("] = ");
-        DatabaseBlock _database_9 = model.getDatabase();
-        String _name_37 = _database_9.getName();
-        String _pascalize_8 = Strings.pascalize(_name_37);
+        DatabaseBlock _database_10 = model.getDatabase();
+        String _name_38 = _database_10.getName();
+        String _pascalize_8 = Strings.pascalize(_name_38);
         _builder.append(_pascalize_8, "\t\t");
         _builder.append("Contract.");
-        String _name_38 = vw_4.getName();
-        String _pascalize_9 = Strings.pascalize(_name_38);
+        String _name_39 = vw_4.getName();
+        String _pascalize_9 = Strings.pascalize(_name_39);
         _builder.append(_pascalize_9, "\t\t");
         _builder.append(".CONTENT_TYPE;");
         _builder.newLineIfNotEmpty();
@@ -552,18 +566,18 @@ public class ContentProviderGenerator {
           if (_hasAndroidPrimaryKey_9) {
             _builder.append("\t\t");
             _builder.append("contentTypes[");
-            String _name_39 = vw_4.getName();
-            String _underscore_23 = Strings.underscore(_name_39);
+            String _name_40 = vw_4.getName();
+            String _underscore_23 = Strings.underscore(_name_40);
             String _upperCase_23 = _underscore_23.toUpperCase();
             _builder.append(_upperCase_23, "\t\t");
             _builder.append("_ID] = ");
-            DatabaseBlock _database_10 = model.getDatabase();
-            String _name_40 = _database_10.getName();
-            String _pascalize_10 = Strings.pascalize(_name_40);
+            DatabaseBlock _database_11 = model.getDatabase();
+            String _name_41 = _database_11.getName();
+            String _pascalize_10 = Strings.pascalize(_name_41);
             _builder.append(_pascalize_10, "\t\t");
             _builder.append("Contract.");
-            String _name_41 = vw_4.getName();
-            String _pascalize_11 = Strings.pascalize(_name_41);
+            String _name_42 = vw_4.getName();
+            String _pascalize_11 = Strings.pascalize(_name_42);
             _builder.append(_pascalize_11, "\t\t");
             _builder.append(".ITEM_CONTENT_TYPE;");
             _builder.newLineIfNotEmpty();
@@ -576,18 +590,18 @@ public class ContentProviderGenerator {
       for(final CreateTableStatement tbl_6 : _configInitTables_2) {
         _builder.append("\t\t");
         _builder.append("contentTypes[");
-        String _name_42 = tbl_6.getName();
-        String _underscore_24 = Strings.underscore(_name_42);
+        String _name_43 = tbl_6.getName();
+        String _underscore_24 = Strings.underscore(_name_43);
         String _upperCase_24 = _underscore_24.toUpperCase();
         _builder.append(_upperCase_24, "\t\t");
         _builder.append("] = ");
-        DatabaseBlock _database_11 = model.getDatabase();
-        String _name_43 = _database_11.getName();
-        String _pascalize_12 = Strings.pascalize(_name_43);
+        DatabaseBlock _database_12 = model.getDatabase();
+        String _name_44 = _database_12.getName();
+        String _pascalize_12 = Strings.pascalize(_name_44);
         _builder.append(_pascalize_12, "\t\t");
         _builder.append("Contract.");
-        String _name_44 = tbl_6.getName();
-        String _pascalize_13 = Strings.pascalize(_name_44);
+        String _name_45 = tbl_6.getName();
+        String _pascalize_13 = Strings.pascalize(_name_45);
         _builder.append(_pascalize_13, "\t\t");
         _builder.append(".CONTENT_TYPE;");
         _builder.newLineIfNotEmpty();
@@ -596,18 +610,18 @@ public class ContentProviderGenerator {
           if (_hasAndroidPrimaryKey_10) {
             _builder.append("\t\t");
             _builder.append("contentTypes[");
-            String _name_45 = tbl_6.getName();
-            String _underscore_25 = Strings.underscore(_name_45);
+            String _name_46 = tbl_6.getName();
+            String _underscore_25 = Strings.underscore(_name_46);
             String _upperCase_25 = _underscore_25.toUpperCase();
             _builder.append(_upperCase_25, "\t\t");
             _builder.append("_ID] = ");
-            DatabaseBlock _database_12 = model.getDatabase();
-            String _name_46 = _database_12.getName();
-            String _pascalize_14 = Strings.pascalize(_name_46);
+            DatabaseBlock _database_13 = model.getDatabase();
+            String _name_47 = _database_13.getName();
+            String _pascalize_14 = Strings.pascalize(_name_47);
             _builder.append(_pascalize_14, "\t\t");
             _builder.append("Contract.");
-            String _name_47 = tbl_6.getName();
-            String _pascalize_15 = Strings.pascalize(_name_47);
+            String _name_48 = tbl_6.getName();
+            String _pascalize_15 = Strings.pascalize(_name_48);
             _builder.append(_pascalize_15, "\t\t");
             _builder.append(".ITEM_CONTENT_TYPE;");
             _builder.newLineIfNotEmpty();
@@ -620,18 +634,18 @@ public class ContentProviderGenerator {
       for(final CreateViewStatement vw_5 : _configInitViews_2) {
         _builder.append("\t\t");
         _builder.append("contentTypes[");
-        String _name_48 = vw_5.getName();
-        String _underscore_26 = Strings.underscore(_name_48);
+        String _name_49 = vw_5.getName();
+        String _underscore_26 = Strings.underscore(_name_49);
         String _upperCase_26 = _underscore_26.toUpperCase();
         _builder.append(_upperCase_26, "\t\t");
         _builder.append("] = ");
-        DatabaseBlock _database_13 = model.getDatabase();
-        String _name_49 = _database_13.getName();
-        String _pascalize_16 = Strings.pascalize(_name_49);
+        DatabaseBlock _database_14 = model.getDatabase();
+        String _name_50 = _database_14.getName();
+        String _pascalize_16 = Strings.pascalize(_name_50);
         _builder.append(_pascalize_16, "\t\t");
         _builder.append("Contract.");
-        String _name_50 = vw_5.getName();
-        String _pascalize_17 = Strings.pascalize(_name_50);
+        String _name_51 = vw_5.getName();
+        String _pascalize_17 = Strings.pascalize(_name_51);
         _builder.append(_pascalize_17, "\t\t");
         _builder.append(".CONTENT_TYPE;");
         _builder.newLineIfNotEmpty();
@@ -640,18 +654,18 @@ public class ContentProviderGenerator {
           if (_hasAndroidPrimaryKey_11) {
             _builder.append("\t\t");
             _builder.append("contentTypes[");
-            String _name_51 = vw_5.getName();
-            String _underscore_27 = Strings.underscore(_name_51);
+            String _name_52 = vw_5.getName();
+            String _underscore_27 = Strings.underscore(_name_52);
             String _upperCase_27 = _underscore_27.toUpperCase();
             _builder.append(_upperCase_27, "\t\t");
             _builder.append("_ID] = ");
-            DatabaseBlock _database_14 = model.getDatabase();
-            String _name_52 = _database_14.getName();
-            String _pascalize_18 = Strings.pascalize(_name_52);
+            DatabaseBlock _database_15 = model.getDatabase();
+            String _name_53 = _database_15.getName();
+            String _pascalize_18 = Strings.pascalize(_name_53);
             _builder.append(_pascalize_18, "\t\t");
             _builder.append("Contract.");
-            String _name_53 = vw_5.getName();
-            String _pascalize_19 = Strings.pascalize(_name_53);
+            String _name_54 = vw_5.getName();
+            String _pascalize_19 = Strings.pascalize(_name_54);
             _builder.append(_pascalize_19, "\t\t");
             _builder.append(".ITEM_CONTENT_TYPE;");
             _builder.newLineIfNotEmpty();
@@ -660,13 +674,13 @@ public class ContentProviderGenerator {
       }
     }
     {
-      DatabaseBlock _database_15 = model.getDatabase();
-      ConfigBlock _config_4 = _database_15.getConfig();
+      DatabaseBlock _database_16 = model.getDatabase();
+      ConfigBlock _config_4 = _database_16.getConfig();
       boolean _notEquals_2 = (!Objects.equal(_config_4, null));
       if (_notEquals_2) {
         {
-          DatabaseBlock _database_16 = model.getDatabase();
-          ConfigBlock _config_5 = _database_16.getConfig();
+          DatabaseBlock _database_17 = model.getDatabase();
+          ConfigBlock _config_5 = _database_17.getConfig();
           EList<ConfigurationStatement> _statements_2 = _config_5.getStatements();
           final Function1<ConfigurationStatement,Boolean> _function_3 = new Function1<ConfigurationStatement,Boolean>() {
             public Boolean apply(final ConfigurationStatement it) {
@@ -683,8 +697,8 @@ public class ContentProviderGenerator {
             String _upperCase_28 = _underscore_28.toUpperCase();
             _builder.append(_upperCase_28, "\t\t");
             _builder.append("_");
-            String _name_54 = ((ActionStatement) a_2).getName();
-            String _underscore_29 = Strings.underscore(_name_54);
+            String _name_55 = ((ActionStatement) a_2).getName();
+            String _underscore_29 = Strings.underscore(_name_55);
             String _upperCase_29 = _underscore_29.toUpperCase();
             _builder.append(_upperCase_29, "\t\t");
             _builder.append("] = ");
@@ -713,9 +727,9 @@ public class ContentProviderGenerator {
     _builder.newLine();
     _builder.append("        ");
     _builder.append("return new ");
-    DatabaseBlock _database_17 = model.getDatabase();
-    String _name_55 = _database_17.getName();
-    String _pascalize_20 = Strings.pascalize(_name_55);
+    DatabaseBlock _database_18 = model.getDatabase();
+    String _name_56 = _database_18.getName();
+    String _pascalize_20 = Strings.pascalize(_name_56);
     _builder.append(_pascalize_20, "        ");
     _builder.append("OpenHelper(context);");
     _builder.newLineIfNotEmpty();
@@ -732,9 +746,9 @@ public class ContentProviderGenerator {
     _builder.newLine();
     _builder.append("\t\t");
     _builder.append("return ");
-    DatabaseBlock _database_18 = model.getDatabase();
-    String _name_56 = _database_18.getName();
-    String _pascalize_21 = Strings.pascalize(_name_56);
+    DatabaseBlock _database_19 = model.getDatabase();
+    String _name_57 = _database_19.getName();
+    String _pascalize_21 = Strings.pascalize(_name_57);
     _builder.append(_pascalize_21, "\t\t");
     _builder.append("Contract.REFERENCING_VIEWS.get(uri);");
     _builder.newLineIfNotEmpty();
@@ -757,8 +771,8 @@ public class ContentProviderGenerator {
       for(final CreateTableStatement tbl_7 : _tables_4) {
         _builder.append("\t\t\t");
         _builder.append("case ");
-        String _name_57 = tbl_7.getName();
-        String _underscore_30 = Strings.underscore(_name_57);
+        String _name_58 = tbl_7.getName();
+        String _underscore_30 = Strings.underscore(_name_58);
         String _upperCase_30 = _underscore_30.toUpperCase();
         _builder.append(_upperCase_30, "\t\t\t");
         _builder.append(": ");
@@ -766,8 +780,8 @@ public class ContentProviderGenerator {
         _builder.append("\t\t\t");
         _builder.append("\t");
         _builder.append("return create");
-        String _name_58 = tbl_7.getName();
-        String _pascalize_22 = Strings.pascalize(_name_58);
+        String _name_59 = tbl_7.getName();
+        String _pascalize_22 = Strings.pascalize(_name_59);
         _builder.append(_pascalize_22, "\t\t\t\t");
         _builder.append("Actions();");
         _builder.newLineIfNotEmpty();
@@ -776,8 +790,8 @@ public class ContentProviderGenerator {
           if (_hasAndroidPrimaryKey_12) {
             _builder.append("\t\t\t");
             _builder.append("case ");
-            String _name_59 = tbl_7.getName();
-            String _underscore_31 = Strings.underscore(_name_59);
+            String _name_60 = tbl_7.getName();
+            String _underscore_31 = Strings.underscore(_name_60);
             String _upperCase_31 = _underscore_31.toUpperCase();
             _builder.append(_upperCase_31, "\t\t\t");
             _builder.append("_ID:");
@@ -785,8 +799,8 @@ public class ContentProviderGenerator {
             _builder.append("\t\t\t");
             _builder.append("\t");
             _builder.append("return create");
-            String _name_60 = tbl_7.getName();
-            String _pascalize_23 = Strings.pascalize(_name_60);
+            String _name_61 = tbl_7.getName();
+            String _pascalize_23 = Strings.pascalize(_name_61);
             _builder.append(_pascalize_23, "\t\t\t\t");
             _builder.append("ByIdActions();");
             _builder.newLineIfNotEmpty();
@@ -799,8 +813,8 @@ public class ContentProviderGenerator {
       for(final CreateViewStatement vw_6 : _views_3) {
         _builder.append("\t\t\t");
         _builder.append("case ");
-        String _name_61 = vw_6.getName();
-        String _underscore_32 = Strings.underscore(_name_61);
+        String _name_62 = vw_6.getName();
+        String _underscore_32 = Strings.underscore(_name_62);
         String _upperCase_32 = _underscore_32.toUpperCase();
         _builder.append(_upperCase_32, "\t\t\t");
         _builder.append(":");
@@ -808,8 +822,8 @@ public class ContentProviderGenerator {
         _builder.append("\t\t\t");
         _builder.append("\t");
         _builder.append("return create");
-        String _name_62 = vw_6.getName();
-        String _pascalize_24 = Strings.pascalize(_name_62);
+        String _name_63 = vw_6.getName();
+        String _pascalize_24 = Strings.pascalize(_name_63);
         _builder.append(_pascalize_24, "\t\t\t\t");
         _builder.append("Actions();");
         _builder.newLineIfNotEmpty();
@@ -818,8 +832,8 @@ public class ContentProviderGenerator {
           if (_hasAndroidPrimaryKey_13) {
             _builder.append("\t\t\t");
             _builder.append("case ");
-            String _name_63 = vw_6.getName();
-            String _underscore_33 = Strings.underscore(_name_63);
+            String _name_64 = vw_6.getName();
+            String _underscore_33 = Strings.underscore(_name_64);
             String _upperCase_33 = _underscore_33.toUpperCase();
             _builder.append(_upperCase_33, "\t\t\t");
             _builder.append("_ID: ");
@@ -827,8 +841,8 @@ public class ContentProviderGenerator {
             _builder.append("\t\t\t");
             _builder.append("\t");
             _builder.append("return create");
-            String _name_64 = vw_6.getName();
-            String _pascalize_25 = Strings.pascalize(_name_64);
+            String _name_65 = vw_6.getName();
+            String _pascalize_25 = Strings.pascalize(_name_65);
             _builder.append(_pascalize_25, "\t\t\t\t");
             _builder.append("ByIdActions();");
             _builder.newLineIfNotEmpty();
@@ -841,8 +855,8 @@ public class ContentProviderGenerator {
       for(final CreateTableStatement tbl_8 : _configInitTables_3) {
         _builder.append("\t\t\t");
         _builder.append("case ");
-        String _name_65 = tbl_8.getName();
-        String _underscore_34 = Strings.underscore(_name_65);
+        String _name_66 = tbl_8.getName();
+        String _underscore_34 = Strings.underscore(_name_66);
         String _upperCase_34 = _underscore_34.toUpperCase();
         _builder.append(_upperCase_34, "\t\t\t");
         _builder.append(": ");
@@ -850,8 +864,8 @@ public class ContentProviderGenerator {
         _builder.append("\t\t\t");
         _builder.append("\t");
         _builder.append("return create");
-        String _name_66 = tbl_8.getName();
-        String _pascalize_26 = Strings.pascalize(_name_66);
+        String _name_67 = tbl_8.getName();
+        String _pascalize_26 = Strings.pascalize(_name_67);
         _builder.append(_pascalize_26, "\t\t\t\t");
         _builder.append("Actions();");
         _builder.newLineIfNotEmpty();
@@ -860,8 +874,8 @@ public class ContentProviderGenerator {
           if (_hasAndroidPrimaryKey_14) {
             _builder.append("\t\t\t");
             _builder.append("case ");
-            String _name_67 = tbl_8.getName();
-            String _underscore_35 = Strings.underscore(_name_67);
+            String _name_68 = tbl_8.getName();
+            String _underscore_35 = Strings.underscore(_name_68);
             String _upperCase_35 = _underscore_35.toUpperCase();
             _builder.append(_upperCase_35, "\t\t\t");
             _builder.append("_ID:");
@@ -869,8 +883,8 @@ public class ContentProviderGenerator {
             _builder.append("\t\t\t");
             _builder.append("\t");
             _builder.append("return create");
-            String _name_68 = tbl_8.getName();
-            String _pascalize_27 = Strings.pascalize(_name_68);
+            String _name_69 = tbl_8.getName();
+            String _pascalize_27 = Strings.pascalize(_name_69);
             _builder.append(_pascalize_27, "\t\t\t\t");
             _builder.append("ByIdActions();");
             _builder.newLineIfNotEmpty();
@@ -883,8 +897,8 @@ public class ContentProviderGenerator {
       for(final CreateViewStatement vw_7 : _configInitViews_3) {
         _builder.append("\t\t\t");
         _builder.append("case ");
-        String _name_69 = vw_7.getName();
-        String _underscore_36 = Strings.underscore(_name_69);
+        String _name_70 = vw_7.getName();
+        String _underscore_36 = Strings.underscore(_name_70);
         String _upperCase_36 = _underscore_36.toUpperCase();
         _builder.append(_upperCase_36, "\t\t\t");
         _builder.append(":");
@@ -892,8 +906,8 @@ public class ContentProviderGenerator {
         _builder.append("\t\t\t");
         _builder.append("\t");
         _builder.append("return create");
-        String _name_70 = vw_7.getName();
-        String _pascalize_28 = Strings.pascalize(_name_70);
+        String _name_71 = vw_7.getName();
+        String _pascalize_28 = Strings.pascalize(_name_71);
         _builder.append(_pascalize_28, "\t\t\t\t");
         _builder.append("Actions();");
         _builder.newLineIfNotEmpty();
@@ -902,8 +916,8 @@ public class ContentProviderGenerator {
           if (_hasAndroidPrimaryKey_15) {
             _builder.append("\t\t\t");
             _builder.append("case ");
-            String _name_71 = vw_7.getName();
-            String _underscore_37 = Strings.underscore(_name_71);
+            String _name_72 = vw_7.getName();
+            String _underscore_37 = Strings.underscore(_name_72);
             String _upperCase_37 = _underscore_37.toUpperCase();
             _builder.append(_upperCase_37, "\t\t\t");
             _builder.append("_ID: ");
@@ -911,8 +925,8 @@ public class ContentProviderGenerator {
             _builder.append("\t\t\t");
             _builder.append("\t");
             _builder.append("return create");
-            String _name_72 = vw_7.getName();
-            String _pascalize_29 = Strings.pascalize(_name_72);
+            String _name_73 = vw_7.getName();
+            String _pascalize_29 = Strings.pascalize(_name_73);
             _builder.append(_pascalize_29, "\t\t\t\t");
             _builder.append("ByIdActions();");
             _builder.newLineIfNotEmpty();
@@ -921,13 +935,13 @@ public class ContentProviderGenerator {
       }
     }
     {
-      DatabaseBlock _database_19 = model.getDatabase();
-      ConfigBlock _config_6 = _database_19.getConfig();
+      DatabaseBlock _database_20 = model.getDatabase();
+      ConfigBlock _config_6 = _database_20.getConfig();
       boolean _notEquals_3 = (!Objects.equal(_config_6, null));
       if (_notEquals_3) {
         {
-          DatabaseBlock _database_20 = model.getDatabase();
-          ConfigBlock _config_7 = _database_20.getConfig();
+          DatabaseBlock _database_21 = model.getDatabase();
+          ConfigBlock _config_7 = _database_21.getConfig();
           EList<ConfigurationStatement> _statements_3 = _config_7.getStatements();
           final Function1<ConfigurationStatement,Boolean> _function_4 = new Function1<ConfigurationStatement,Boolean>() {
             public Boolean apply(final ConfigurationStatement it) {
@@ -944,8 +958,8 @@ public class ContentProviderGenerator {
             String _upperCase_38 = _underscore_38.toUpperCase();
             _builder.append(_upperCase_38, "\t\t\t");
             _builder.append("_");
-            String _name_73 = ((ActionStatement) a_3).getName();
-            String _underscore_39 = Strings.underscore(_name_73);
+            String _name_74 = ((ActionStatement) a_3).getName();
+            String _underscore_39 = Strings.underscore(_name_74);
             String _upperCase_39 = _underscore_39.toUpperCase();
             _builder.append(_upperCase_39, "\t\t\t");
             _builder.append(":");
@@ -953,8 +967,8 @@ public class ContentProviderGenerator {
             _builder.append("\t\t\t");
             _builder.append("\t");
             _builder.append("return create");
-            String _name_74 = ((ActionStatement) a_3).getName();
-            String _pascalize_30 = Strings.pascalize(_name_74);
+            String _name_75 = ((ActionStatement) a_3).getName();
+            String _pascalize_30 = Strings.pascalize(_name_75);
             _builder.append(_pascalize_30, "\t\t\t\t");
             _builder.append("Actions();");
             _builder.newLineIfNotEmpty();
@@ -984,24 +998,24 @@ public class ContentProviderGenerator {
           if (_hasAndroidPrimaryKey_16) {
             _builder.append("    ");
             _builder.append("protected ContentProviderActions create");
-            String _name_75 = tbl_9.getName();
-            String _pascalize_31 = Strings.pascalize(_name_75);
+            String _name_76 = tbl_9.getName();
+            String _pascalize_31 = Strings.pascalize(_name_76);
             _builder.append(_pascalize_31, "    ");
             _builder.append("ByIdActions() {");
             _builder.newLineIfNotEmpty();
             _builder.append("    ");
             _builder.append("\t");
             _builder.append("return new DefaultContentProviderActions(Sources.");
-            String _name_76 = tbl_9.getName();
-            String _underscore_40 = Strings.underscore(_name_76);
+            String _name_77 = tbl_9.getName();
+            String _underscore_40 = Strings.underscore(_name_77);
             String _upperCase_40 = _underscore_40.toUpperCase();
             _builder.append(_upperCase_40, "    \t");
             _builder.append(", true, ");
             {
               boolean _hasAndroidPrimaryKey_17 = ModelUtil.hasAndroidPrimaryKey(tbl_9);
               if (_hasAndroidPrimaryKey_17) {
-                String _name_77 = tbl_9.getName();
-                String _pascalize_32 = Strings.pascalize(_name_77);
+                String _name_78 = tbl_9.getName();
+                String _pascalize_32 = Strings.pascalize(_name_78);
                 _builder.append(_pascalize_32, "    \t");
                 _builder.append("Record.getFactory()");
               } else {
@@ -1019,24 +1033,24 @@ public class ContentProviderGenerator {
         }
         _builder.append("    ");
         _builder.append("protected ContentProviderActions create");
-        String _name_78 = tbl_9.getName();
-        String _pascalize_33 = Strings.pascalize(_name_78);
+        String _name_79 = tbl_9.getName();
+        String _pascalize_33 = Strings.pascalize(_name_79);
         _builder.append(_pascalize_33, "    ");
         _builder.append("Actions() {");
         _builder.newLineIfNotEmpty();
         _builder.append("    ");
         _builder.append("\t");
         _builder.append("return new DefaultContentProviderActions(Sources.");
-        String _name_79 = tbl_9.getName();
-        String _underscore_41 = Strings.underscore(_name_79);
+        String _name_80 = tbl_9.getName();
+        String _underscore_41 = Strings.underscore(_name_80);
         String _upperCase_41 = _underscore_41.toUpperCase();
         _builder.append(_upperCase_41, "    \t");
         _builder.append(", false, ");
         {
           boolean _hasAndroidPrimaryKey_18 = ModelUtil.hasAndroidPrimaryKey(tbl_9);
           if (_hasAndroidPrimaryKey_18) {
-            String _name_80 = tbl_9.getName();
-            String _pascalize_34 = Strings.pascalize(_name_80);
+            String _name_81 = tbl_9.getName();
+            String _pascalize_34 = Strings.pascalize(_name_81);
             _builder.append(_pascalize_34, "    \t");
             _builder.append("Record.getFactory()");
           } else {
@@ -1060,24 +1074,24 @@ public class ContentProviderGenerator {
           if (_hasAndroidPrimaryKey_19) {
             _builder.append("    ");
             _builder.append("protected ContentProviderActions create");
-            String _name_81 = view.getName();
-            String _pascalize_35 = Strings.pascalize(_name_81);
+            String _name_82 = view.getName();
+            String _pascalize_35 = Strings.pascalize(_name_82);
             _builder.append(_pascalize_35, "    ");
             _builder.append("ByIdActions() {");
             _builder.newLineIfNotEmpty();
             _builder.append("    ");
             _builder.append("\t");
             _builder.append("return new DefaultContentProviderActions(Sources.");
-            String _name_82 = view.getName();
-            String _underscore_42 = Strings.underscore(_name_82);
+            String _name_83 = view.getName();
+            String _underscore_42 = Strings.underscore(_name_83);
             String _upperCase_42 = _underscore_42.toUpperCase();
             _builder.append(_upperCase_42, "    \t");
             _builder.append(", true, ");
             {
               boolean _hasAndroidPrimaryKey_20 = ModelUtil.hasAndroidPrimaryKey(view);
               if (_hasAndroidPrimaryKey_20) {
-                String _name_83 = view.getName();
-                String _pascalize_36 = Strings.pascalize(_name_83);
+                String _name_84 = view.getName();
+                String _pascalize_36 = Strings.pascalize(_name_84);
                 _builder.append(_pascalize_36, "    \t");
                 _builder.append("Record.getFactory()");
               } else {
@@ -1095,24 +1109,24 @@ public class ContentProviderGenerator {
         }
         _builder.append("    ");
         _builder.append("protected ContentProviderActions create");
-        String _name_84 = view.getName();
-        String _pascalize_37 = Strings.pascalize(_name_84);
+        String _name_85 = view.getName();
+        String _pascalize_37 = Strings.pascalize(_name_85);
         _builder.append(_pascalize_37, "    ");
         _builder.append("Actions() {");
         _builder.newLineIfNotEmpty();
         _builder.append("    ");
         _builder.append("\t");
         _builder.append("return new DefaultContentProviderActions(Sources.");
-        String _name_85 = view.getName();
-        String _underscore_43 = Strings.underscore(_name_85);
+        String _name_86 = view.getName();
+        String _underscore_43 = Strings.underscore(_name_86);
         String _upperCase_43 = _underscore_43.toUpperCase();
         _builder.append(_upperCase_43, "    \t");
         _builder.append(", false, ");
         {
           boolean _hasAndroidPrimaryKey_21 = ModelUtil.hasAndroidPrimaryKey(view);
           if (_hasAndroidPrimaryKey_21) {
-            String _name_86 = view.getName();
-            String _pascalize_38 = Strings.pascalize(_name_86);
+            String _name_87 = view.getName();
+            String _pascalize_38 = Strings.pascalize(_name_87);
             _builder.append(_pascalize_38, "    \t");
             _builder.append("Record.getFactory()");
           } else {
@@ -1136,24 +1150,24 @@ public class ContentProviderGenerator {
           if (_hasAndroidPrimaryKey_22) {
             _builder.append("    ");
             _builder.append("protected ContentProviderActions create");
-            String _name_87 = tbl_10.getName();
-            String _pascalize_39 = Strings.pascalize(_name_87);
+            String _name_88 = tbl_10.getName();
+            String _pascalize_39 = Strings.pascalize(_name_88);
             _builder.append(_pascalize_39, "    ");
             _builder.append("ByIdActions() {");
             _builder.newLineIfNotEmpty();
             _builder.append("    ");
             _builder.append("\t");
             _builder.append("return new DefaultContentProviderActions(Sources.");
-            String _name_88 = tbl_10.getName();
-            String _underscore_44 = Strings.underscore(_name_88);
+            String _name_89 = tbl_10.getName();
+            String _underscore_44 = Strings.underscore(_name_89);
             String _upperCase_44 = _underscore_44.toUpperCase();
             _builder.append(_upperCase_44, "    \t");
             _builder.append(", true, ");
             {
               boolean _hasAndroidPrimaryKey_23 = ModelUtil.hasAndroidPrimaryKey(tbl_10);
               if (_hasAndroidPrimaryKey_23) {
-                String _name_89 = tbl_10.getName();
-                String _pascalize_40 = Strings.pascalize(_name_89);
+                String _name_90 = tbl_10.getName();
+                String _pascalize_40 = Strings.pascalize(_name_90);
                 _builder.append(_pascalize_40, "    \t");
                 _builder.append("Record.getFactory()");
               } else {
@@ -1171,24 +1185,24 @@ public class ContentProviderGenerator {
         }
         _builder.append("    ");
         _builder.append("protected ContentProviderActions create");
-        String _name_90 = tbl_10.getName();
-        String _pascalize_41 = Strings.pascalize(_name_90);
+        String _name_91 = tbl_10.getName();
+        String _pascalize_41 = Strings.pascalize(_name_91);
         _builder.append(_pascalize_41, "    ");
         _builder.append("Actions() {");
         _builder.newLineIfNotEmpty();
         _builder.append("    ");
         _builder.append("\t");
         _builder.append("return new DefaultContentProviderActions(Sources.");
-        String _name_91 = tbl_10.getName();
-        String _underscore_45 = Strings.underscore(_name_91);
+        String _name_92 = tbl_10.getName();
+        String _underscore_45 = Strings.underscore(_name_92);
         String _upperCase_45 = _underscore_45.toUpperCase();
         _builder.append(_upperCase_45, "    \t");
         _builder.append(", false, ");
         {
           boolean _hasAndroidPrimaryKey_24 = ModelUtil.hasAndroidPrimaryKey(tbl_10);
           if (_hasAndroidPrimaryKey_24) {
-            String _name_92 = tbl_10.getName();
-            String _pascalize_42 = Strings.pascalize(_name_92);
+            String _name_93 = tbl_10.getName();
+            String _pascalize_42 = Strings.pascalize(_name_93);
             _builder.append(_pascalize_42, "    \t");
             _builder.append("Record.getFactory()");
           } else {
@@ -1212,24 +1226,24 @@ public class ContentProviderGenerator {
           if (_hasAndroidPrimaryKey_25) {
             _builder.append("    ");
             _builder.append("protected ContentProviderActions create");
-            String _name_93 = view_1.getName();
-            String _pascalize_43 = Strings.pascalize(_name_93);
+            String _name_94 = view_1.getName();
+            String _pascalize_43 = Strings.pascalize(_name_94);
             _builder.append(_pascalize_43, "    ");
             _builder.append("ByIdActions() {");
             _builder.newLineIfNotEmpty();
             _builder.append("    ");
             _builder.append("\t");
             _builder.append("return new DefaultContentProviderActions(Sources.");
-            String _name_94 = view_1.getName();
-            String _underscore_46 = Strings.underscore(_name_94);
+            String _name_95 = view_1.getName();
+            String _underscore_46 = Strings.underscore(_name_95);
             String _upperCase_46 = _underscore_46.toUpperCase();
             _builder.append(_upperCase_46, "    \t");
             _builder.append(", true, ");
             {
               boolean _hasAndroidPrimaryKey_26 = ModelUtil.hasAndroidPrimaryKey(view_1);
               if (_hasAndroidPrimaryKey_26) {
-                String _name_95 = view_1.getName();
-                String _pascalize_44 = Strings.pascalize(_name_95);
+                String _name_96 = view_1.getName();
+                String _pascalize_44 = Strings.pascalize(_name_96);
                 _builder.append(_pascalize_44, "    \t");
                 _builder.append("Record.getFactory()");
               } else {
@@ -1247,24 +1261,24 @@ public class ContentProviderGenerator {
         }
         _builder.append("    ");
         _builder.append("protected ContentProviderActions create");
-        String _name_96 = view_1.getName();
-        String _pascalize_45 = Strings.pascalize(_name_96);
+        String _name_97 = view_1.getName();
+        String _pascalize_45 = Strings.pascalize(_name_97);
         _builder.append(_pascalize_45, "    ");
         _builder.append("Actions() {");
         _builder.newLineIfNotEmpty();
         _builder.append("    ");
         _builder.append("\t");
         _builder.append("return new DefaultContentProviderActions(Sources.");
-        String _name_97 = view_1.getName();
-        String _underscore_47 = Strings.underscore(_name_97);
+        String _name_98 = view_1.getName();
+        String _underscore_47 = Strings.underscore(_name_98);
         String _upperCase_47 = _underscore_47.toUpperCase();
         _builder.append(_upperCase_47, "    \t");
         _builder.append(", false, ");
         {
           boolean _hasAndroidPrimaryKey_27 = ModelUtil.hasAndroidPrimaryKey(view_1);
           if (_hasAndroidPrimaryKey_27) {
-            String _name_98 = view_1.getName();
-            String _pascalize_46 = Strings.pascalize(_name_98);
+            String _name_99 = view_1.getName();
+            String _pascalize_46 = Strings.pascalize(_name_99);
             _builder.append(_pascalize_46, "    \t");
             _builder.append("Record.getFactory()");
           } else {
@@ -1281,20 +1295,20 @@ public class ContentProviderGenerator {
       }
     }
     {
-      DatabaseBlock _database_21 = model.getDatabase();
-      ConfigBlock _config_8 = _database_21.getConfig();
+      DatabaseBlock _database_22 = model.getDatabase();
+      ConfigBlock _config_8 = _database_22.getConfig();
       boolean _notEquals_4 = (!Objects.equal(_config_8, null));
       if (_notEquals_4) {
         {
-          DatabaseBlock _database_22 = model.getDatabase();
-          ConfigBlock _config_9 = _database_22.getConfig();
+          DatabaseBlock _database_23 = model.getDatabase();
+          ConfigBlock _config_9 = _database_23.getConfig();
           EList<ConfigurationStatement> _statements_4 = _config_9.getStatements();
           Iterable<ActionStatement> _filter_5 = Iterables.<ActionStatement>filter(_statements_4, ActionStatement.class);
           for(final ActionStatement a_4 : _filter_5) {
             _builder.append("\t");
             _builder.append("protected ContentProviderActions create");
-            String _name_99 = a_4.getName();
-            String _pascalize_47 = Strings.pascalize(_name_99);
+            String _name_100 = a_4.getName();
+            String _pascalize_47 = Strings.pascalize(_name_100);
             _builder.append(_pascalize_47, "\t");
             _builder.append("Actions() {");
             _builder.newLineIfNotEmpty();

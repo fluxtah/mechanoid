@@ -18,6 +18,8 @@ import com.robotoworks.mechanoid.db.sqliteModel.ContentUriParamSegment
 import java.util.ArrayList
 import com.robotoworks.mechanoid.db.sqliteModel.TableDefinition
 import com.robotoworks.mechanoid.db.sqliteModel.Function
+import com.robotoworks.mechanoid.db.sqliteModel.FunctionArg
+import org.eclipse.emf.common.util.EList
 
 class ContentProviderContractGenerator {
 		def CharSequence generate(Model model, SqliteDatabaseSnapshot snapshot) { 
@@ -37,6 +39,7 @@ class ContentProviderContractGenerator {
 			import java.util.HashMap;
 			import java.util.Set;
 			import java.util.Map;
+			import android.database.Cursor;
 			
 			public class «model.database.name.pascalize»Contract  {
 			    public static final String CONTENT_AUTHORITY = initAuthority();
@@ -155,8 +158,18 @@ class ContentProviderContractGenerator {
     
     def generateUserFunctions(Model model, SqliteDatabaseSnapshot snapshot) '''
         «FOR func : model.database.config?.statements.filter(Function)»
-        public static Cursor «func.name»(«func.args.join(", ", [a|a.type.toJavaTypeName + " " + a.name])») {
+        public static Cursor «func.name»(«func.args.toMethodArgs») {
+            Uri uri = BASE_CONTENT_URI.buildUpon()
+                .appendPath("__func")
+                .appendPath("«func.name»")
+                «FOR arg : func.args»
+                .appendQueryParameter("«arg.name»", Uri.encode(String.valueOf(«arg.name»)))
+                «ENDFOR»
+                .build();
             
+            Cursor cursor = Mechanoid.getContentResolver().query(uri, null, null, null, null);
+            
+            return cursor;
         }
         
         «ENDFOR»
@@ -226,6 +239,10 @@ class ContentProviderContractGenerator {
 					return "String " + seg.name.camelize
 				})])
 	}
+	
+	def toMethodArgs(EList<FunctionArg> args) {
+        args.join(", ", [arg|arg.type.toJavaTypeName + " " + arg.name])
+    }
 	
 	def hasMethodArgs(ContentUri uri) {
 		uri.segments

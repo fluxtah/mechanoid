@@ -70,6 +70,8 @@ public class ContentProviderContractGenerator {
     _builder.newLine();
     _builder.append("import java.util.Map;");
     _builder.newLine();
+    _builder.append("import android.database.Cursor;");
+    _builder.newLine();
     _builder.newLine();
     _builder.append("public class ");
     DatabaseBlock _database = model.getDatabase();
@@ -607,20 +609,48 @@ public class ContentProviderContractGenerator {
         _builder.append(_name, "");
         _builder.append("(");
         EList<FunctionArg> _args = func.getArgs();
-        final Function1<FunctionArg,String> _function = new Function1<FunctionArg,String>() {
-          public String apply(final FunctionArg a) {
-            ColumnType _type = a.getType();
-            String _javaTypeName = ModelUtil.toJavaTypeName(_type);
-            String _plus = (_javaTypeName + " ");
-            String _name = a.getName();
-            return (_plus + _name);
-          }
-        };
-        String _join = IterableExtensions.<FunctionArg>join(_args, ", ", _function);
-        _builder.append(_join, "");
+        String _methodArgs = this.toMethodArgs(_args);
+        _builder.append(_methodArgs, "");
         _builder.append(") {");
         _builder.newLineIfNotEmpty();
         _builder.append("    ");
+        _builder.append("Uri uri = BASE_CONTENT_URI.buildUpon()");
+        _builder.newLine();
+        _builder.append("        ");
+        _builder.append(".appendPath(\"__func\")");
+        _builder.newLine();
+        _builder.append("        ");
+        _builder.append(".appendPath(\"");
+        String _name_1 = func.getName();
+        _builder.append(_name_1, "        ");
+        _builder.append("\")");
+        _builder.newLineIfNotEmpty();
+        {
+          EList<FunctionArg> _args_1 = func.getArgs();
+          for(final FunctionArg arg : _args_1) {
+            _builder.append("        ");
+            _builder.append(".appendQueryParameter(\"");
+            String _name_2 = arg.getName();
+            _builder.append(_name_2, "        ");
+            _builder.append("\", Uri.encode(String.valueOf(");
+            String _name_3 = arg.getName();
+            _builder.append(_name_3, "        ");
+            _builder.append(")))");
+            _builder.newLineIfNotEmpty();
+          }
+        }
+        _builder.append("        ");
+        _builder.append(".build();");
+        _builder.newLine();
+        _builder.append("    ");
+        _builder.newLine();
+        _builder.append("    ");
+        _builder.append("Cursor cursor = Mechanoid.getContentResolver().query(uri, null, null, null, null);");
+        _builder.newLine();
+        _builder.append("    ");
+        _builder.newLine();
+        _builder.append("    ");
+        _builder.append("return cursor;");
         _builder.newLine();
         _builder.append("}");
         _builder.newLine();
@@ -804,6 +834,19 @@ public class ContentProviderContractGenerator {
       }
     };
     return IterableExtensions.<ContentUriParamSegment>join(_filter, ", ", _function);
+  }
+  
+  public String toMethodArgs(final EList<FunctionArg> args) {
+    final Function1<FunctionArg,String> _function = new Function1<FunctionArg,String>() {
+      public String apply(final FunctionArg arg) {
+        ColumnType _type = arg.getType();
+        String _javaTypeName = ModelUtil.toJavaTypeName(_type);
+        String _plus = (_javaTypeName + " ");
+        String _name = arg.getName();
+        return (_plus + _name);
+      }
+    };
+    return IterableExtensions.<FunctionArg>join(args, ", ", _function);
   }
   
   public boolean hasMethodArgs(final ContentUri uri) {

@@ -35,6 +35,8 @@ import com.robotoworks.mechanoid.db.sqliteModel.Model
 import java.util.Collection
 import com.robotoworks.mechanoid.db.sqliteModel.InitBlock
 import com.robotoworks.mechanoid.db.sqliteModel.SingleSourceSelectStatement
+import com.robotoworks.mechanoid.db.sqliteModel.DMLStatement
+import com.robotoworks.mechanoid.db.sqliteModel.SelectStatement
 
 class ModelUtil {
 	def static <T extends DDLStatement> ArrayList<T> findPreviousStatementsOfType(DDLStatement stmt, Class<T> statementType, boolean inclusive) {
